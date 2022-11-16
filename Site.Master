@@ -1,0 +1,530 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Test2.SiteMaster" %>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GoodWear - Leading Online Clothing Retail</title>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+
+    <%--<webopt:bundlereference runat="server" path="~/Content/css" />--%>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous">
+    <script type="text/javascript">
+        function registersuccess() {
+            swal({
+                title: 'Congratulations!',
+                text: 'You have successfully registered! You may login to your account now.',
+                icon: 'success',
+                button: 'ok',
+            }).then(function () {
+                window.location.href = "Login.aspx";
+            });
+        }
+        function paymentsuccess() {
+            swal({
+                title: 'Thank you for choosing GOODWEAR!',
+                text: 'Payment has been made successfully! Please wait for 1-2 days for your belongings to be delivered to you!',
+                icon: 'success',
+                button: 'ok',
+            }).then(function () {
+                window.location.href = "Cart.aspx";
+            });
+        }
+        function addproductsuccess() {
+            swal({
+                title: 'Success!',
+                text: 'Product has been added successfully!',
+                icon: 'success',
+                button: 'ok',
+            }).then(function () {
+                window.location.href = "../Admin Pages/Admin Product.aspx";
+            });
+        }
+        function editproductsuccess() {
+            swal({
+                title: 'Success!',
+                text: 'Product has been updated successfully!',
+                icon: 'success',
+                button: 'ok',
+            }).then(function () {
+                window.location.href = "../Admin Pages/Admin Product.aspx";
+            });
+        }
+        function deleteproductsuccess() {
+            swal({
+                title: 'Deleted!',
+                text: 'Product has been deleted successfully!',
+                icon: 'success',
+                button: 'ok',
+            }).then(function () {
+                window.location.href = "../Admin Pages/Admin Product.aspx";
+            });
+        }
+        function emailexist() {
+            swal({
+                title: 'Invalid Email!',
+                text: 'The email you entered has already been registered!',
+                icon: 'warning',
+                button: 'ok',
+            });
+            return false;
+        }
+
+        function loginsuccess() {
+            swal({
+                title: 'Congratulations!',
+                text: 'You have successfully logged in!',
+                icon: 'success',
+                button: 'ok',
+            }).then(function () {
+                window.location.href = "Default.aspx";
+            });
+        }
+
+        function loginfailed() {
+            swal({
+                title: 'Oops!',
+                text: 'Incorrect Email or Password!',
+                icon: 'warning',
+                button: 'ok',
+            });
+            return false;
+        }
+
+        function loginblocked() {
+            swal({
+                title: 'Oops!',
+                text: 'Your account has been deactivated! Please email TP051067@mail.apu.edu.my to seek for help.',
+                icon: 'error',
+                button: 'ok',
+            });
+            return false;
+        }
+        function updateprofilesuccess() {
+            swal({
+                title: 'Update Successful!',
+                text: 'Profile has been updated.',
+                icon: 'success',
+                button: 'ok',
+            }).then(function () {
+                window.location.href = "ProfilePage.aspx";
+            });
+        }
+        function updatepasswordsuccess() {
+            swal({
+                title: 'Update Successful!',
+                text: 'Your password has been changed successfully! Please login again.',
+                icon: 'success',
+                button: 'ok',
+            }).then(function () {
+                window.location.href = "Login.aspx";
+            });
+        }
+        function wrongoldpassword() {
+            swal({
+                title: 'Oops!',
+                text: 'You have entered the wrong old password!',
+                icon: 'warning',
+                button: 'ok',
+            });
+            return false;
+        }
+        function confirmlogout() {
+            swal({
+                title: "Attention!",
+                text: "Are you sure you want to log out?",
+                icon: "warning",
+                buttons: {
+                    no: {
+                        text: "No",
+                        value: "No",
+                        className: 'btn btn-danger'
+                    },
+                    yes: {
+                        text: "Yes",
+                        value: "Yes",
+                        className: 'btn btn-success'
+                    },
+                }
+            }).then((value) => {
+                if (value == "Yes") {
+                    window.location.href = "/User Pages/Logout.aspx";
+                }
+                else {
+                    return false;
+                }
+            });
+        }
+
+        function loginrequired() {
+            swal({
+                title: "Oops!",
+                text: "You need to be logged in to perform this action! Login now?",
+                icon: "warning",
+                buttons: {
+                    no: {
+                        text: "No, not now",
+                        value: "No",
+                        className: 'btn btn-danger'
+                    },
+                    yes: {
+                        text: "Yes, take me there!",
+                        value: "Yes",
+                        className: 'btn btn-success'
+                    },
+                }
+            }).then((value) => {
+                if (value == "Yes") {
+                    window.location.href = "Login.aspx";
+                }
+                else {
+                    return false;
+                }
+            });
+        }
+
+        function addtocartsuccess() {
+            swal({
+                title: 'Success!',
+                text: 'Product has been added to your cart successfully!',
+                icon: 'success',
+                button: 'ok',
+            });
+            return false;
+        }
+        function addratingsuccess() {
+            swal({
+                title: 'Thank you for your response!',
+                text: 'We hope you have enjoyed your stay!',
+                icon: 'success',
+                button: 'ok',
+            }).then(function () {
+                window.location.href = "Order History.aspx";
+            });
+        }
+
+
+
+    </script>
+
+<style>
+    body {
+        padding: 0; 
+        margin: 0; 
+        background: #f2f6e9; 
+    } 
+    /*--- navigation bar ---*/
+    .navbar { 
+        background: #6ab446; 
+    } 
+    .nav-link, 
+    .navbar-brand { 
+        color: #fff; 
+        cursor: pointer; 
+    } 
+    .nav-link { 
+        margin-right: 1em !important; 
+    } 
+    .nav-link:hover { 
+        color: #000; 
+    } 
+    .navbar-collapse { 
+        justify-content: flex-end; 
+    }
+    img{
+        width: auto;
+        height: 45px;
+        border-radius: 5px;
+    }
+    .header { 
+        background-image: url('https://i.ibb.co/QXj3gWp/photo-1493663284031-b7e3aefcae8e.jpg'); 
+        background-size: cover; 
+        background-position: center; 
+        position: relative; 
+    } 
+    .overlay {
+        position: absolute; 
+        min-height: 100%; 
+        min-width: 100%; 
+        left: 0; 
+        top: 0; 
+        background: rgba(0, 0, 0, 0.6); 
+    }
+    .description { 
+    left: 50%; 
+    position: absolute; 
+    top: 45%; 
+    transform: translate(-50%, -55%); 
+    text-align: center; 
+    } 
+    .description h1 { 
+    color: #6ab446; 
+    } 
+    .description p { 
+    color: #fff; 
+    font-size: 1.3rem; 
+    line-height: 1.5; 
+    }
+    .description button {
+        border: 1px solid #6ab446; 
+        background: #6ab446; 
+        border-radius: 0; 
+        color: #fff; 
+    } 
+    .description button:hover { 
+        border: 1px solid #fff; 
+        background: #fff; 
+        color: #000; 
+    }
+
+    .features {
+    margin: 4em auto; 
+    padding: 1em; 
+    position: relative; 
+    } 
+    .feature-title { 
+    color: #333; 
+    font-size: 1.3rem; 
+    font-weight: 700; 
+    margin-bottom: 20px; 
+    text-transform: uppercase; 
+    } 
+    .features img { 
+    -webkit-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4); 
+    -moz-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4); 
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4); 
+    margin-bottom: 16px; 
+    }
+
+    .features .form-control, 
+    .features input { 
+    border-radius: 0; 
+    } 
+    .features .btn { 
+    background-color: #589b37; 
+    border: 1px solid #589b37; 
+    color: #fff; 
+    margin-top: 20px; 
+    } 
+    .features .btn:hover { 
+    background-color: #333; 
+    border: 1px solid #333; 
+    } 
+    .page-footer {
+    background-color: #222; 
+    color: #ccc; 
+    padding: 60px 0 30px; 
+    } 
+    .footer-copyright { 
+    color: #666; 
+    padding: 40px 0; 
+    }
+
+    @media (max-width: 575.98px) {
+    .description { 
+    left: 0; 
+    padding: 0 15px; 
+    position: absolute; 
+    top: 10%; 
+    transform: none; 
+    text-align: center; 
+    } 
+    .description h1 { 
+    font-size: 2em; 
+    } 
+    .description p { 
+    font-size: 1.2rem; 
+    } 
+    .features { 
+    margin: 0; 
+    } 
+    }
+</style>
+</head>
+<body>
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
+                <%--Framework Scripts--%>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="bootstrap" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                <asp:ScriptReference Name="WebFormsBundle" />
+                <%--Site Scripts--%>
+            </Scripts>
+        </asp:ScriptManager>
+ 
+        <nav class="navbar navbar-expand-md">
+        <a class="navbar-brand" href="Default">
+            <img src="../images/goodwear-logo.jpg" alt="image">
+
+            <span>GOODWEAR</span>
+        </a>
+
+        <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation" aria-controls="main-navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+<% 
+    if (Session["CID"] == null)
+    {
+
+    %>
+        <div class="collapse navbar-collapse" id="main-navigation">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="Default">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="Product">Products</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="Login">Login</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="Register">Register</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+ <% }
+     else if(Session["CID"].ToString() == "admin")
+     {
+ %> 
+         <div class="collapse navbar-collapse" id="main-navigation">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="../Admin Pages/Admin User">Users</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Products
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="Admin Product">View Products</a>
+                      <a class="dropdown-item" href="Add Product">Add New Products</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../Admin Pages/Admin Category">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../Admin Pages/Admin Order">Orders</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="confirmlogout()">Logout</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>  
+
+<%   }
+     else
+     {
+         //Response.Write(Session["fullname"].ToString());
+         //Response.End();
+ %>   
+         <div class="collapse navbar-collapse" id="main-navigation">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="ProfilePage">Welcome, <% Response.Write(Session["fullname"].ToString()); %>!</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      My Profile
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="ProfilePage">Edit Profile</a>
+                      <a class="dropdown-item" href="ChangePassword">Change Password</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Default">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="Product">Products</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Orders
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="Cart">Cart</a>
+                      <a class="dropdown-item" href="Pending Order">Pending Orders</a>
+                      <a class="dropdown-item" href="Order History">Order History</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="confirmlogout()">Logout</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+ <% } %>
+  
+
+        <div class="body-content">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+            <hr />
+            <footer class="page-footer">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-8 col-md-8 col-sm-12">
+                            <h6 class="text-uppercase font-weight-bold">Additional Information</h6>
+                                <p>GoodWear is the leading online wearing retail platform in Malaysia 
+                            that delivers within 1-2 days within Peninsula Malaysia. We promise good quality
+                            and ethical wearing brand for our customers.</p>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <h6 class="text-uppercase font-weight-bold">Contact</h6>
+                            <p>
+                            Technology Park Malaysia<br />
+                            Bukit Jalil, Kuala Lumpur 57000<br />
+                            Malaysia 
+                            <br />tp051067@mail.apu.edu.my
+                            <br />60+ 10-2908181 
+                    
+                            </p>
+                        </div>
+                    </div>
+                        <div class="footer-copyright text-center">© <% Response.Write(DateTime.Now.Year.ToString()); %> Copyright: tp051067han.com</div>
+                </div>
+            </footer>
+        </div>
+       </form>
+</body>
+    <script>
+    $(document).ready(function () { 
+        $('.header').height($(window).height()); 
+    })
+
+    </script>
+</html>
